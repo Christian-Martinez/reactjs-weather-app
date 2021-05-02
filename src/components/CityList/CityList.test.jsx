@@ -11,7 +11,8 @@ const cities = [
 
 test('CityList renders', async () => {
   // AAA Arrange Act Assert
-  const { findAllByRole } = render(<CityList cities={cities} />);
+  const fnClickOnItem = jest.fn();
+  const { findAllByRole } = render(<CityList cities={cities}  onClickCity={fnClickOnItem}/>);
   const items = await findAllByRole('listitem');
   expect(items).toHaveLength(4);
 });

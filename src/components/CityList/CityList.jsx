@@ -28,6 +28,7 @@ const CityList = ({ cities, onClickCity }) => {
   );
 };
 
+//como validar que cities tenga un array con la estructura que queremos
 CityList.propTypes = {
   cities: PropTypes.array.isRequired,
   onClickCity: PropTypes.func.isRequired,
