@@ -5,6 +5,7 @@ import Forecast from '../components/Forecast';
 import CityInfo from '../components/CityInfo';
 import ForecastChart from '../components/ForecastChart';
 import WeatherDetails from '../components/WeatherDetails';
+import AppFrame from '../components/AppFrame/AppFrame';
 
 const chartData = [
   {
@@ -56,17 +57,19 @@ const CityPage = () => {
   ];
 
   return (
-    <Grid container justify='space-around' direction='column' spacing={2}>
-      <Grid item container xs={12} justify='center' alignItems='flex-end'>
-        <CityInfo city={city} country={country} />
+    <AppFrame>
+      <Grid container justify='space-around' direction='column' spacing={2}>
+        <Grid item container xs={12} justify='center' alignItems='flex-end'>
+          <CityInfo city={city} country={country} />
+        </Grid>
+        <Grid container item xs={12} justify='center'>
+          <Weather state={state} temperature={temperature} />
+          {humidity && wind && <WeatherDetails humidity={humidity} wind={wind} />}
+        </Grid>
+        <Grid item>{chartData && <ForecastChart data={chartData} />}</Grid>
+        <Grid item>{forecastItemList && <Forecast forecastItemList={forecastItemList} />}</Grid>
       </Grid>
-      <Grid container item xs={12} justify='center'>
-        <Weather state={state} temperature={temperature} />
-        {humidity && wind && <WeatherDetails humidity={humidity} wind={wind} />}
-      </Grid>
-      <Grid item>{chartData && <ForecastChart data={chartData} />}</Grid>
-      <Grid item>{forecastItemList && <Forecast forecastItemList={forecastItemList} />}</Grid>
-    </Grid>
+    </AppFrame>
   );
 };
 
