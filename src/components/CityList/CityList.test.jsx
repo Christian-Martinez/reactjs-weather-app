@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import CityList from './CityList'; // SUT
 
 const cities = [
@@ -11,20 +11,22 @@ const cities = [
 
 test('CityList renders', async () => {
   // AAA Arrange Act Assert
-  const fnClickOnItem = jest.fn();
-  const { findAllByRole } = render(<CityList cities={cities} onClickCity={fnClickOnItem} />);
+  const { findAllByRole } = render(<CityList cities={cities} onClickCity={() => {}} />);
+  const revisar = await (async () => render(<CityList cities={cities} onClickCity={() => {}} />));
+  console.log(revisar);
+
   const items = await findAllByRole('button');
+  // const items = algo('button');
   expect(items).toHaveLength(4);
 });
 
-test('CityList click on item', async () => {
+/* test('CityList click on item', async () => {
   // Debemos simular una acción del usuario: click sobre un item
   // Para eso vamos a utilizar una función "mock"
   const fnClickOnItem = jest.fn();
 
   const { findAllByRole } = render(<CityList cities={cities} onClickCity={fnClickOnItem} />);
   const items = await findAllByRole('button');
-
   // Ahora, para simular la acción, vamos a utilizar fireEvent
   // fireEvent es parte de la librería testing-library/react
   fireEvent.click(items[0]);
@@ -32,4 +34,4 @@ test('CityList click on item', async () => {
   // ¿Ahora que tuvo que suceder?
   // Se debió llamar a la función fnClickOnItem UNA única vez
   expect(fnClickOnItem).toHaveBeenCalledTimes(1);
-});
+});*/
