@@ -14,7 +14,11 @@ const renderCityAndCountry = (eventOnClickCity) => (cityAndCountry, weather) => 
   const { city, country, countryCode } = cityAndCountry;
 
   return (
-    <ListItem button key={getCityCode(city, countryCode)} onClick={eventOnClickCity}>
+    <ListItem
+      button
+      key={getCityCode(city, countryCode)}
+      onClick={() => eventOnClickCity(city, countryCode)}
+    >
       <Grid container justify='center' alignItems='center'>
         <Grid item md={8} xs={12}>
           <CityInfo city={city} country={country} />
@@ -41,8 +45,7 @@ const CityList = ({ cities, onClickCity }) => {
           const { data } = response;
           const temperature = Number(convertUnits(data.main.temp).from('K').to('C').toFixed(0));
           const state = data.weather[0].main.toLowerCase();
-          console.log(city, temperature, state);
-
+          // console.log(city, temperature, state);
           const propName = getCityCode(city, countryCode);
           const propValue = { temperature, state }; // Ej: { temperature: 10, state: "sunny" }
           // setAllWeather({ ...allWeather, [propName]: propValue });
