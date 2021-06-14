@@ -13,17 +13,11 @@ import AppFrame from '../components/AppFrame/AppFrame';
 import ForecastChart from '../components/ForecastChart';
 import WeatherDetails from '../components/WeatherDetails';
 
-const CityPage = () => {
+const useCityPage = () => {
   const { city, countryCode } = useParams();
 
   const [chartData, setChartData] = useState(null);
   const [forecastItemList, setForecastItemList] = useState(null);
-
-  const country = 'Argentina';
-  const state = 'clouds';
-  const temperature = 20;
-  const humidity = 80;
-  const wind = 5;
 
   useEffect(() => {
     const getForecast = async () => {
@@ -36,27 +30,29 @@ const CityPage = () => {
         console.log('data', data);
         const daysAhead = [0, 1, 2, 3, 4, 5];
         const days = daysAhead.map((d) => moment().add(d, 'd'));
-        const dataAux = days.map((day) => {
-          // debugger;
-          const tempObjArray = data.list.filter((item) => {
-            const dayOfYear = moment.unix(item.dt).dayOfYear();
-            return dayOfYear === day.dayOfYear();
-          });
-          // console.log('day.dayOfYear()', day.dayOfYear());
-          // console.log('tempObjArray', tempObjArray);
+        const dataAux = days
+          .map((day) => {
+            // debugger;
+            const tempObjArray = data.list.filter((item) => {
+              const dayOfYear = moment.unix(item.dt).dayOfYear();
+              return dayOfYear === day.dayOfYear();
+            });
+            // console.log('day.dayOfYear()', day.dayOfYear());
+            // console.log('tempObjArray', tempObjArray);
 
-          const temps = tempObjArray.map((item) => item.main.temp);
+            const temps = tempObjArray.map((item) => item.main.temp);
 
-          // dayHour, min, max
-          return {
-            dayHour: day.format('ddd'),
-            //Math.min(60,20,50)
-            min: temps.length > 0 ? toCelsius(Math.min(...temps)) : 0,
-            max: temps.length > 0 ? toCelsius(Math.max(...temps)) : 0,
-            // max: toCelsius(Math.max(...temps)),
-            // hasTemps: temps.length > 0 ? true : false,
-          };
-        });
+            // dayHour, min, max
+            return {
+              dayHour: day.format('ddd'),
+              //Math.min(60,20,50)
+              min: toCelsius(Math.min(...temps)),
+              max: toCelsius(Math.max(...temps)),
+              hasTemps: temps.length > 0,
+            };
+          })
+          .filter((item) => item.hasTemps);
+
         setChartData(dataAux);
 
         /* obtener { hour: 18, state:"clouds", temperature:17, weekDay:"Jueves" } */
@@ -79,6 +75,17 @@ const CityPage = () => {
     };
     getForecast();
   }, [city, countryCode]);
+  return { city, chartData, forecastItemList };
+};
+
+const CityPage = () => {
+  const { city, chartData, forecastItemList } = useCityPage();
+
+  const country = 'Argentina';
+  const state = 'clouds';
+  const temperature = 20;
+  const humidity = 80;
+  const wind = 5;
 
   return (
     <AppFrame>
