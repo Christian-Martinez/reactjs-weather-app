@@ -38,6 +38,7 @@ const CityList = ({ cities, onClickCity }) => {
   useEffect(() => {
     const setWeather = (city, countryCode) => {
       const appid = 'f99bbd9e4959b513e9bd0d7f7356b38d';
+      // const appid = 'a0d7555681cc1ea2d83d09edf1b7795f';
       const url = `http://api.openweathermap.org/data/2.5/weather?q=${city},${countryCode}&appid=${appid}`;
       axios
         .get(url)
